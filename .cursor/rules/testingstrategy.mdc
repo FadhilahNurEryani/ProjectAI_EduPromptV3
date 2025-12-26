@@ -1,0 +1,28 @@
+---
+alwaysApply: true
+---
+Unit Tests
+
+Service functions
+Utility functions
+Component logic
+Validation schemas
+
+Integration Tests
+
+API endpoints
+Database operations
+Authentication flow
+
+E2E Tests
+
+User registration & login
+Prompt generation flow
+Template browsing
+Critical user journeys
+
+Tools
+
+Unit: Vitest / Jest
+E2E: Playwright / Cypress
+Coverage: Istanbul

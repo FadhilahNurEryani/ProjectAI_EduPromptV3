@@ -1,0 +1,9 @@
+---
+alwaysApply: true
+---
+CREATE INDEX idx_templates_category ON prompt_templates(category_id);
+CREATE INDEX idx_templates_active ON prompt_templates(is_active);
+CREATE INDEX idx_templates_featured ON prompt_templates(is_featured);
+CREATE INDEX idx_generated_user ON generated_prompts(user_id);
+CREATE INDEX idx_analytics_user ON usage_analytics(user_id);
+CREATE INDEX idx_analytics_created ON usage_analytics(created_at);

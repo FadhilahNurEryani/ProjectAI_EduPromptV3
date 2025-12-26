@@ -1,0 +1,25 @@
+---
+alwaysApply: true
+---
+Frontend
+
+Code splitting dan lazy loading
+Image optimization (Next.js Image)
+Font optimization
+Caching strategies
+Bundle size monitoring
+
+Backend
+
+Database query optimization
+Connection pooling
+Caching layer (Redis)
+Pagination untuk list queries
+N+1 query prevention
+
+Monitoring
+
+Error tracking (Sentry)
+Performance monitoring
+User analytics
+Database query monitoring

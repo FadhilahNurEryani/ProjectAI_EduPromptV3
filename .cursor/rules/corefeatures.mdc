@@ -1,0 +1,107 @@
+---
+alwaysApply: true
+---
+1. User Management
+
+Registration & Login: Email/password dan Google OAuth
+User Profile: Biodata, institusi, mata pelajaran, tingkat kelas
+Role Management: Teacher dan Admin roles
+
+2. Prompt Categories
+Kategori utama prompt yang disediakan:
+
+Rencana Pembelajaran (RPP)
+
+RPP Harian
+RPP Mingguan
+RPP Berbasis Projek
+RPP Kurikulum Merdeka
+
+
+Materi Pembelajaran
+
+Penjelasan Konsep
+Analogi dan Metafora
+Contoh Kasus
+Mind Mapping
+
+
+Penilaian
+
+Soal Pilihan Ganda
+Soal Essay
+Soal HOTS
+Rubrik Penilaian
+
+
+Asesmen
+
+Asesmen Diagnostik
+Asesmen Formatif
+Asesmen Sumatif
+Asesmen Autentik
+
+
+Diferensiasi
+
+Konten Terdiferensiasi
+Proses Pembelajaran
+Produk Pembelajaran
+Lingkungan Belajar
+
+
+Feedback & Refleksi
+
+Feedback Konstruktif
+Pertanyaan Reflektif
+Evaluasi Diri
+Peer Assessment
+
+
+Engagement
+
+Ice Breaking
+Gamifikasi
+Diskusi Kelas
+Proyek Kolaboratif
+
+
+Administrative
+
+Surat Kegiatan
+Laporan Pembelajaran
+Dokumentasi
+Newsletter Kelas
+
+
+
+3. Prompt Generator
+
+Template Selection: Pilih dari kategori
+Dynamic Form: Form input yang disesuaikan dengan template
+Smart Variables: Auto-completion dan suggestions
+Preview: Real-time preview prompt yang dihasilkan
+Copy to Clipboard: One-click copy
+Save & Favorite: Simpan prompt favorit
+Edit & Regenerate: Edit dan generate ulang
+
+4. Prompt Library
+
+Browse Templates: Browse semua template tersedia
+Search & Filter: Cari berdasarkan keyword, kategori, tags
+Sort Options: Paling populer, terbaru, rating tertinggi
+Template Details: Lihat detail lengkap template
+
+5. My Prompts
+
+History: Riwayat prompt yang dibuat
+Favorites: Prompt yang difavoritkan
+Collections: Organisir prompts dalam collections
+Export: Export prompts ke PDF/TXT
+
+6. Community Features (Future)
+
+Share Templates: Share template buatan sendiri
+Rating & Reviews: Rate dan review templates
+Comments: Diskusi pada template
+Contributions: Submit template baru

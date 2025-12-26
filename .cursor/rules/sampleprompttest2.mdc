@@ -1,0 +1,21 @@
+---
+alwaysApply: true
+---
+Variables:
+- concept (Konsep)
+- grade (Tingkat Kelas)
+- context (Konteks/Situasi)
+
+Template:
+"Jelaskan konsep {concept} untuk siswa kelas {grade} dengan cara yang 
+mudah dipahami. Gunakan {context} sebagai konteks atau analogi.
+
+Penjelasan harus:
+1. Dimulai dengan pertanyaan atau situasi yang relatable
+2. Menggunakan bahasa yang sesuai dengan usia siswa
+3. Menyertakan analogi atau metafora yang konkret
+4. Memberikan contoh dari kehidupan sehari-hari
+5. Menyertakan aktivitas interaktif sederhana untuk memahami konsep
+6. Diakhiri dengan ringkasan poin-poin penting
+
+Buat penjelasan yang engaging dan memotivasi siswa untuk belajar lebih lanjut."

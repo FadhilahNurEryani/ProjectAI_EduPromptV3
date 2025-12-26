@@ -1,0 +1,31 @@
+---
+alwaysApply: true
+---
+Variables:
+- subject (Mata Pelajaran)
+- grade (Kelas)
+- topic (Topik/Materi)
+- duration (Durasi)
+- learning_objectives (Tujuan Pembelajaran)
+
+Template:
+"Buatkan Rencana Pelaksanaan Pembelajaran (RPP) untuk mata pelajaran {subject} 
+kelas {grade} dengan topik {topic}. Durasi pembelajaran adalah {duration}. 
+Tujuan pembelajaran: {learning_objectives}.
+
+RPP harus mencakup:
+1. Identitas Pembelajaran (Satuan Pendidikan, Kelas, Alokasi Waktu)
+2. Kompetensi Inti dan Kompetensi Dasar
+3. Tujuan Pembelajaran (SMART)
+4. Indikator Pencapaian Kompetensi
+5. Materi Pembelajaran
+6. Metode Pembelajaran (sesuai Kurikulum Merdeka)
+7. Kegiatan Pembelajaran:
+   - Pendahuluan (10 menit)
+   - Inti (70 menit)
+   - Penutup (10 menit)
+8. Asesmen (Diagnostik, Formatif, Sumatif)
+9. Pengayaan dan Remedial
+10. Refleksi Guru
+
+Gunakan pendekatan student-centered dan integrasikan pembelajaran berdiferensiasi."

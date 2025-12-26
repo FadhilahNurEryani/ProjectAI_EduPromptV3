@@ -1,0 +1,32 @@
+---
+alwaysApply: true
+---
+Authentication & Authorization
+
+Password hashing dengan bcrypt (minimum 10 rounds)
+JWT tokens dengan expiration
+Refresh token mechanism
+Role-based access control (RBAC)
+Rate limiting untuk login attempts
+
+Data Protection
+
+Input validation dan sanitization (Zod)
+SQL injection prevention (ORM parameterized queries)
+XSS prevention (React default escaping)
+CSRF protection (SameSite cookies)
+Secure headers (Helmet.js)
+
+API Security
+
+API rate limiting (per user/IP)
+Request size limits
+CORS configuration
+API key validation (jika ada)
+
+Privacy
+
+GDPR compliance considerations
+Data encryption at rest
+Secure password reset flow
+User data export capability

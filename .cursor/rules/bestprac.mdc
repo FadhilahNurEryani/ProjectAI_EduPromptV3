@@ -1,0 +1,25 @@
+---
+alwaysApply: true
+---
+Code Quality
+
+Follow TypeScript strict mode
+Use ESLint + Prettier
+Write meaningful commit messages (Conventional Commits)
+Code review untuk setiap PR
+Maintain test coverage > 80%
+
+Documentation
+
+README untuk setup instructions
+API documentation (OpenAPI/Swagger)
+Component documentation (Storybook)
+Architecture decision records (ADR)
+
+Development Workflow
+
+Git flow branching strategy
+Feature branches
+Pull request templates
+Automated testing via CI/CD
+Semantic versioning

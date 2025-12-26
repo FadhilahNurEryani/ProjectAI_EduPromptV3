@@ -1,0 +1,53 @@
+---
+alwaysApply: true
+---
+eduprompt-ai/
+├── src/
+│   ├── app/                    # Next.js App Router
+│   │   ├── (auth)/
+│   │   │   ├── login/
+│   │   │   └── register/
+│   │   ├── (dashboard)/
+│   │   │   ├── dashboard/
+│   │   │   ├── library/
+│   │   │   ├── generate/
+│   │   │   └── my-prompts/
+│   │   ├── api/                # API routes
+│   │   │   ├── auth/
+│   │   │   ├── templates/
+│   │   │   ├── prompts/
+│   │   │   └── categories/
+│   │   ├── layout.tsx
+│   │   └── page.tsx
+│   ├── components/
+│   │   ├── ui/                 # shadcn/ui components
+│   │   ├── layouts/
+│   │   ├── forms/
+│   │   └── features/
+│   ├── lib/
+│   │   ├── db/                 # Prisma client
+│   │   ├── auth/               # Auth utilities
+│   │   ├── validations/        # Zod schemas
+│   │   └── utils/
+│   ├── services/               # Business logic
+│   │   ├── template.service.ts
+│   │   ├── prompt.service.ts
+│   │   └── user.service.ts
+│   ├── types/                  # TypeScript types
+│   └── constants/
+├── prisma/
+│   ├── schema.prisma
+│   ├── migrations/
+│   └── seed.ts
+├── public/
+│   ├── images/
+│   └── icons/
+├── tests/
+│   ├── unit/
+│   └── integration/
+├── .env.example
+├── .gitignore
+├── next.config.js
+├── package.json
+├── tailwind.config.ts
+└── tsconfig.json

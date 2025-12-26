@@ -1,0 +1,47 @@
+---
+alwaysApply: true
+---
+Phase 1: MVP (4-6 minggu)
+Week 1-2: Foundation
+
+Setup project structure
+Database schema implementation
+Authentication system
+Basic UI components
+
+Week 3-4: Core Features
+
+Prompt template CRUD
+Category management
+Basic prompt generator
+Template library
+
+Week 5-6: Polish
+
+My Prompts page
+Search & filter
+Copy to clipboard
+Responsive design
+Testing & bug fixes
+
+Phase 2: Enhancement (3-4 minggu)
+
+Advanced filters
+Collections feature
+Export functionality
+Rating & feedback system
+Performance optimization
+
+Phase 3: Community (3-4 minggu)
+
+Template sharing
+Comments & discussions
+User-submitted templates
+Social features
+
+Phase 4: Advanced (Future)
+
+AI-powered suggestions
+Template customization editor
+Collaboration features
+API for third-party integration
