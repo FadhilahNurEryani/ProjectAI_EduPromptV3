@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
     const body = (await request.json()) as {
       templateId?: string
-      inputData?: unknown
+      inputData?: Prisma.InputJsonValue
       generatedPrompt: string
       title?: string
     }
@@ -30,10 +30,7 @@ export async function POST(request: Request) {
       data: {
         userId: user.id,
         templateId: templateId ?? null,
-
-        // ✅ FIX UTAMA (PRISMA JSON)
-        inputData: (inputData ?? {}) as Prisma.InputJsonValue,
-
+        inputData: inputData ?? Prisma.JsonNull,
         generatedPrompt,
         title: title ?? "Untitled Prompt",
       },
@@ -57,8 +54,8 @@ export async function GET(request: Request) {
     }
 
     const { searchParams } = new URL(request.url)
-    const isFavorite = searchParams.get("favorite") === "true"
-    const isArchived = searchParams.get("archived") === "true"
+    const isFavorite = searchParams.get("favorite")
+    const isArchived = searchParams.get("archived")
 
     const where: {
       userId: string
@@ -69,11 +66,11 @@ export async function GET(request: Request) {
     }
 
     if (isFavorite !== null) {
-      where.isFavorite = isFavorite
+      where.isFavorite = isFavorite === "true"
     }
 
     if (isArchived !== null) {
-      where.isArchived = isArchived
+      where.isArchived = isArchived === "true"
     }
 
     const prompts = await prisma.generatedPrompt.findMany({
