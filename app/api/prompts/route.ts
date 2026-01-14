@@ -10,9 +10,9 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const body = await request.json() as {
+    const body = (await request.json()) as {
       templateId?: string
-      inputData?: Record<string, unknown>
+      inputData?: unknown
       generatedPrompt: string
       title?: string
     }
@@ -29,10 +29,13 @@ export async function POST(request: Request) {
     const savedPrompt = await prisma.generatedPrompt.create({
       data: {
         userId: user.id,
-        templateId: templateId || null,
+        templateId: templateId ?? null,
+
+        // ✅ FIX UTAMA (PRISMA JSON)
         inputData: (inputData ?? {}) as Prisma.InputJsonValue,
+
         generatedPrompt,
-        title: title || "Untitled Prompt",
+        title: title ?? "Untitled Prompt",
       },
     })
 
@@ -41,6 +44,55 @@ export async function POST(request: Request) {
     console.error("Error saving prompt:", error)
     return NextResponse.json(
       { error: "Failed to save prompt" },
+      { status: 500 }
+    )
+  }
+}
+
+export async function GET(request: Request) {
+  try {
+    const user = await getCurrentUser()
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+    }
+
+    const { searchParams } = new URL(request.url)
+    const isFavorite = searchParams.get("favorite") === "true"
+    const isArchived = searchParams.get("archived") === "true"
+
+    const where: {
+      userId: string
+      isFavorite?: boolean
+      isArchived?: boolean
+    } = {
+      userId: user.id,
+    }
+
+    if (isFavorite !== null) {
+      where.isFavorite = isFavorite
+    }
+
+    if (isArchived !== null) {
+      where.isArchived = isArchived
+    }
+
+    const prompts = await prisma.generatedPrompt.findMany({
+      where,
+      include: {
+        template: {
+          include: {
+            category: true,
+          },
+        },
+      },
+      orderBy: { createdAt: "desc" },
+    })
+
+    return NextResponse.json(prompts)
+  } catch (error) {
+    console.error("Error fetching prompts:", error)
+    return NextResponse.json(
+      { error: "Failed to fetch prompts" },
       { status: 500 }
     )
   }

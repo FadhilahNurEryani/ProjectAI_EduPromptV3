@@ -1,6 +1,8 @@
+import { Prisma } from "@prisma/client"
 import { NextResponse } from "next/server"
 import { getCurrentUser } from "@/lib/auth/session"
 import { prisma } from "@/lib/db/prisma"
+import { generatePrompt } from "@/lib/llm/client"
 
 export async function POST(request: Request) {
   try {
@@ -9,89 +11,53 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const body = await request.json() as {
-      templateId?: string
-      inputData?: Record<string, unknown>
-      generatedPrompt: string
-      title?: string
+    const body = await request.json()
+    const { templateId, variables } = body as {
+      templateId: string
+      variables: Record<string, string>
     }
 
-    const { templateId, inputData, generatedPrompt, title } = body
-
-    if (!generatedPrompt) {
-      return NextResponse.json(
-        { error: "Missing generated prompt" },
-        { status: 400 }
-      )
+    if (!templateId || !variables) {
+      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
     }
 
-    const savedPrompt = await prisma.generatedPrompt.create({
+    const template = await prisma.promptTemplate.findUnique({
+      where: { id: templateId },
+    })
+
+    if (!template) {
+      return NextResponse.json({ error: "Template not found" }, { status: 404 })
+    }
+
+    // Generate prompt using LLM
+    const generatedPrompt = await generatePrompt(template.promptTemplate, variables)
+
+    // Track usage
+    await prisma.usageAnalytics.create({
       data: {
         userId: user.id,
-        templateId: templateId || null,
-
-        // 🔥 FIX PRISMA JSON (ANTI ERROR VERCEL)
-        inputData: JSON.parse(JSON.stringify(inputData ?? {})),
-
-        generatedPrompt,
-        title: title || "Untitled Prompt",
+        templateId: template.id,
+        action: "generate",
       },
     })
 
-    return NextResponse.json(savedPrompt, { status: 201 })
-  } catch (error) {
-    console.error("Error saving prompt:", error)
-    return NextResponse.json(
-      { error: "Failed to save prompt" },
-      { status: 500 }
-    )
-  }
-}
-
-export async function GET(request: Request) {
-  try {
-    const user = await getCurrentUser()
-    if (!user) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
-    }
-
-    const { searchParams } = new URL(request.url)
-    const isFavorite = searchParams.get("favorite") === "true"
-    const isArchived = searchParams.get("archived") === "true"
-
-    const where: {
-      userId: string
-      isFavorite?: boolean
-      isArchived?: boolean
-    } = {
-      userId: user.id,
-    }
-
-    if (isFavorite !== null) {
-      where.isFavorite = isFavorite
-    }
-    if (isArchived !== null) {
-      where.isArchived = isArchived
-    }
-
-    const prompts = await prisma.generatedPrompt.findMany({
-      where,
-      include: {
-        template: {
-          include: {
-            category: true,
-          },
+    // Update usage count
+    await prisma.promptTemplate.update({
+      where: { id: template.id },
+      data: {
+        usageCount: {
+          increment: 1,
         },
       },
-      orderBy: { createdAt: "desc" },
     })
 
-    return NextResponse.json(prompts)
+    return NextResponse.json({ prompt: generatedPrompt })
   } catch (error) {
-    console.error("Error fetching prompts:", error)
+    console.error("Error generating prompt:", error)
     return NextResponse.json(
-      { error: "Failed to fetch prompts" },
+      { error: "Failed to generate prompt" },
       { status: 500 }
     )
   }
 }
+
