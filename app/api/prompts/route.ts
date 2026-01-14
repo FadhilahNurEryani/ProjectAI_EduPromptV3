@@ -12,7 +12,7 @@ export async function POST(request: Request) {
 
     const body = (await request.json()) as {
       templateId?: string
-      inputData?: Prisma.InputJsonValue
+      inputData?: Record<string, any>
       generatedPrompt: string
       title?: string
     }
@@ -30,7 +30,10 @@ export async function POST(request: Request) {
       data: {
         userId: user.id,
         templateId: templateId ?? null,
-        inputData: inputData ?? Prisma.JsonNull,
+
+        // 🔥 FIX UTAMA ADA DI SINI
+        inputData: (inputData ?? {}) as Prisma.InputJsonValue,
+
         generatedPrompt,
         title: title ?? "Untitled Prompt",
       },
@@ -61,9 +64,7 @@ export async function GET(request: Request) {
       userId: string
       isFavorite?: boolean
       isArchived?: boolean
-    } = {
-      userId: user.id,
-    }
+    } = { userId: user.id }
 
     if (isFavorite !== null) {
       where.isFavorite = isFavorite === "true"
@@ -77,9 +78,7 @@ export async function GET(request: Request) {
       where,
       include: {
         template: {
-          include: {
-            category: true,
-          },
+          include: { category: true },
         },
       },
       orderBy: { createdAt: "desc" },
