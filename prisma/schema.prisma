@@ -54,6 +54,10 @@ model PromptTemplate {
   promptTemplate String  @map("prompt_template")
   variables     Json?
   exampleOutput String?  @map("example_output")
+  examples      Json?    // Array of example outputs for few-shot learning
+  instructions  String?  // Additional instructions for better generation
+  outputFormats String[] @default(["structured"]) @map("output_formats") // supported: structured, narrative, bullet-points
+  tones         String[] @default(["professional"]) // supported: professional, casual, academic, creative
   tags          String[]
   difficulty    String?
   estimatedTime Int?     @map("estimated_time")
@@ -82,16 +86,22 @@ model GeneratedPrompt {
   userId         String   @map("user_id")
   templateId     String?  @map("template_id")
   inputData      Json     @map("input_data")
-  generatedPrompt String  @map("generated_prompt")
+  generatedPrompt String  @map("generated_prompt") @db.Text // Change to text for longer prompts
   title          String?
+  tone           String?  // professional, casual, academic, creative
+  outputFormat   String?  @map("output_format") // structured, narrative, bullet-points
+  includeExamples Boolean? @map("include_examples")
   isFavorite     Boolean  @default(false) @map("is_favorite")
   isArchived     Boolean  @default(false) @map("is_archived")
+  version        Int      @default(1) // for tracking iterations
+  metadata       Json?    // Store generation metadata like token usage
   createdAt       DateTime @default(now()) @map("created_at")
 
   user     User            @relation(fields: [userId], references: [id], onDelete: Cascade)
   template PromptTemplate? @relation(fields: [templateId], references: [id])
 
   @@index([userId])
+  @@index([createdAt])
   @@map("generated_prompts")
 }
 
@@ -137,6 +147,8 @@ model Feedback {
 
   @@map("feedback")
 }
+
+
 
 
 

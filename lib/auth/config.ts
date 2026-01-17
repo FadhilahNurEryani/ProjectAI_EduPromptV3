@@ -1,113 +1,94 @@
-import { NextAuthOptions } from "next-auth"
-import CredentialsProvider from "next-auth/providers/credentials"
-import GoogleProvider from "next-auth/providers/google"
-import { prisma } from "@/lib/db/prisma"
-import bcrypt from "bcryptjs"
-
-// Extend NextAuth types
-declare module "next-auth" {
-  interface User {
-    id: string
-    role?: string
-  }
-}
-
-declare module "next-auth/jwt" {
-  interface JWT {
-    id?: string
-    role?: string
-  }
-}
+// lib/auth/config.ts - FIXED VERSION
+import type { NextAuthOptions } from "next-auth";
+import GithubProvider from "next-auth/providers/github";
+import GoogleProvider from "next-auth/providers/google";
+import CredentialsProvider from "next-auth/providers/credentials";
+import { PrismaAdapter } from "@next-auth/prisma-adapter"; // ← PERBAIKI IMPORT
+import { prisma } from "@/lib/db/prisma"; // ← TAMBAHKAN IMPORT
+import bcrypt from "bcryptjs";
 
 export const authOptions: NextAuthOptions = {
+  adapter: PrismaAdapter(prisma),
   providers: [
+    // GithubProvider({
+    //   clientId: process.env.GITHUB_ID || "",
+    //   clientSecret: process.env.GITHUB_SECRET || "",
+    // }),
+    // GoogleProvider({
+    //   clientId: process.env.GOOGLE_CLIENT_ID || "",
+    //   clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
+    // }),
     CredentialsProvider({
-      name: "Credentials",
+      name: "credentials",
       credentials: {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.email || !credentials?.password) {
-          return null
-        }
-
-        const user = await prisma.user.findUnique({
-          where: { email: credentials.email },
-        })
-
-        if (!user || !user.passwordHash) {
-          return null
-        }
-
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.passwordHash
-        )
-
-        if (!isPasswordValid) {
-          return null
-        }
-
-        return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          role: user.role,
+        try {
+          if (!credentials?.email || !credentials?.password) {
+            return null;
+          }
+          
+          const user = await prisma.user.findUnique({
+            where: { email: credentials.email },
+            select: {
+              id: true,
+              email: true,
+              name: true,
+              passwordHash: true,
+              role: true, // ← PASTIKAN INCLUDE role
+            },
+          });
+          
+          if (!user || !user.passwordHash) {
+            return null;
+          }
+          
+          const isValid = await bcrypt.compare(
+            credentials.password,
+            user.passwordHash
+          );
+          
+          if (!isValid) {
+            return null;
+          }
+          
+          // RETURN OBJECT YANG SESUAI DENGAN INTERFACE User
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name || "",
+            role: user.role || "user", // ← INI WAJIB ADA
+          };
+        } catch (error) {
+          console.error("Auth error:", error);
+          return null;
         }
       },
     }),
-    GoogleProvider({
-      clientId: process.env.GOOGLE_CLIENT_ID || "",
-      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
-    }),
   ],
-  callbacks: {
-    async signIn({ user, account, profile }) {
-      if (account?.provider === "google") {
-        try {
-          const existingUser = await prisma.user.findUnique({
-            where: { email: user.email! },
-          })
-
-          if (!existingUser) {
-            await prisma.user.create({
-              data: {
-                email: user.email!,
-                name: user.name || "User",
-                role: "teacher",
-              },
-            })
-          }
-        } catch (error) {
-          console.error("Error creating user:", error)
-          return false
-        }
-      }
-      return true
-    },
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id
-        token.role = user.role || "teacher"
-      }
-      return token
-    },
-    async session({ session, token }) {
-      if (session.user && token.id) {
-        session.user.id = token.id
-        session.user.role = token.role || "teacher"
-      }
-      return session
-    },
-  },
-  pages: {
-    signIn: "/login",
-    signOut: "/",
-  },
   session: {
     strategy: "jwt",
   },
-  secret: process.env.NEXTAUTH_SECRET,
-}
-
+  callbacks: {
+    async session({ session, token }) {
+      if (session.user) {
+        session.user.id = token.sub || "";
+        session.user.role = token.role as string;
+      }
+      return session;
+    },
+    async jwt({ token, user }) {
+      if (user) {
+        token.sub = user.id;
+        token.role = user.role;
+      }
+      return token;
+    },
+  },
+  pages: {
+    signIn: "/auth/signin",
+  },
+  debug: process.env.NODE_ENV === "development",
+};

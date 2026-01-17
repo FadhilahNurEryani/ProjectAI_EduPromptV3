@@ -17,7 +17,8 @@ import {
 const navigation = [
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
   { name: "Library", href: "/library", icon: Library },
-  { name: "Generate", href: "/generate", icon: Sparkles },
+  { name: "Buat Custom", href: "/dashboard/create-prompt", icon: Sparkles },
+  { name: "Tingkatkan Prompt", href: "/dashboard/enhance-prompt", icon: Sparkles },
   { name: "My Prompts", href: "/my-prompts", icon: Bookmark },
 ]
 

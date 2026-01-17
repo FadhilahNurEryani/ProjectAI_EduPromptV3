@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server"
 import { prisma } from "@/lib/db/prisma"
+import type { NextRequest } from 'next/server' // ← IMPORT INI
 
-export async function GET(request: Request) {
+export async function GET(request: NextRequest) { // ← PAKAI NextRequest
   try {
-    const { searchParams } = new URL(request.url)
+    // PERBAIKI INI: Gunakan request.nextUrl.searchParams
+    const searchParams = request.nextUrl.searchParams
     const categoryId = searchParams.get("category")
     const search = searchParams.get("search")
     const featured = searchParams.get("featured") === "true"
@@ -49,4 +51,3 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: "Failed to fetch templates" }, { status: 500 })
   }
 }
-
