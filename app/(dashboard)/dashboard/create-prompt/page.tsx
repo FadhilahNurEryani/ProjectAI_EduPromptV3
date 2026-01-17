@@ -402,12 +402,12 @@ export default function CreateCustomPromptPage() {
               </CardHeader>
               <CardContent className="space-y-3 text-xs">
                 <div className="rounded bg-gray-50 p-2 text-gray-700">
-                  "Prompt untuk guru membuat pertanyaan diskusi yang merangsang
-                  pemikiran kritis siswa kelas 8 tentang isu sosial"
+                  &quot;Prompt untuk guru membuat pertanyaan diskusi yang merangsang
+                  pemikiran kritis siswa kelas 8 tentang isu sosial&quot;
                 </div>
                 <div className="rounded bg-gray-50 p-2 text-gray-700">
-                  "Template untuk membuat rencana pembelajaran yang terstruktur
-                  dengan tujuan, metode, dan penilaian yang jelas"
+                  &quot;Template untuk membuat rencana pembelajaran yang terstruktur
+                  dengan tujuan, metode, dan penilaian yang jelas&quot;
                 </div>
               </CardContent>
             </Card>
