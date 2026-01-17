@@ -1,4 +1,4 @@
-interface LLMRequest {
+export interface LLMRequest {
   prompt: string
   model?: string
   temperature?: number
@@ -6,7 +6,7 @@ interface LLMRequest {
   systemPrompt?: string
 }
 
-interface LLMResponse {
+export interface LLMResponse {
   content: string
   usage?: {
     promptTokens: number
@@ -15,7 +15,7 @@ interface LLMResponse {
   }
 }
 
-interface PromptGenerationOptions {
+export interface PromptGenerationOptions {
   tone?: 'professional' | 'casual' | 'academic' | 'creative'
   outputFormat?: 'structured' | 'narrative' | 'bullet-points' | 'custom'
   includeExamples?: boolean
