@@ -4,6 +4,8 @@ import { getCurrentUser } from "@/lib/auth/session"
 import { prisma } from "@/lib/db/prisma"
 import { generatePrompt, PromptGenerationOptions } from "@/lib/llm/client"
 
+export const dynamic = "force-dynamic"
+
 export async function POST(request: Request) {
   try {
     const user = await getCurrentUser()

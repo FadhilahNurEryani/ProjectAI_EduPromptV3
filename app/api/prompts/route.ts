@@ -5,6 +5,8 @@ import { prisma } from "@/lib/db/prisma"
 import { Prisma } from "@prisma/client"
 import { z } from "zod"  // Tambahkan validation
 
+export const dynamic = "force-dynamic"
+
 // Schema validation
 const savePromptSchema = z.object({
   templateId: z.string().optional(),

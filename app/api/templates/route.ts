@@ -2,6 +2,8 @@ import { NextResponse } from "next/server"
 import { prisma } from "@/lib/db/prisma"
 import type { NextRequest } from 'next/server' // ← IMPORT INI
 
+export const dynamic = "force-dynamic"
+
 export async function GET(request: NextRequest) { // ← PAKAI NextRequest
   try {
     // PERBAIKI INI: Gunakan request.nextUrl.searchParams
