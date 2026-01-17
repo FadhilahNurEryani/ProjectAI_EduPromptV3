@@ -6,6 +6,8 @@ import { prisma } from "@/lib/db/prisma"
 import Link from "next/link"
 import { Search, Heart, Star } from "lucide-react"
 
+export const dynamic = "force-dynamic"
+
 export default async function LibraryPage({
   searchParams,
 }: {

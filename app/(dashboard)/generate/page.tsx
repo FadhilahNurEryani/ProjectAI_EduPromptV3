@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { Suspense, useState, useEffect } from "react"
 import { useSearchParams, useRouter } from "next/navigation"
 import { DashboardLayout } from "@/components/layouts/dashboard-layout"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
@@ -32,7 +32,9 @@ const FORMAT_OPTIONS = [
   { value: 'bullet-points', label: 'Poin-poin', description: 'Daftar bullet point' },
 ]
 
-export default function GeneratePage() {
+export const dynamic = "force-dynamic"
+
+function GeneratePageContent() {
   const searchParams = useSearchParams()
   const router = useRouter()
   const templateId = searchParams.get("template")
@@ -416,6 +418,14 @@ export default function GeneratePage() {
         </div>
       </div>
     </DashboardLayout>
+  )
+}
+
+export default function GeneratePage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <GeneratePageContent />
+    </Suspense>
   )
 }
 
